@@ -1,38 +1,78 @@
 body {
+    font-family: 'Open Sans Condensed', sans-serif;
     background: grey;
+    margin-top: 0;
+}
+
+h1 {
+    display: inline;
 }
 
 .mainlogo{
     width: 10%;
+    padding-left: 5%;
 }
 
-.under-construction {
-    width: 50%;
+.header_link {
+    vertical-align: 20px;
+    padding-left: 20px;
+    font-size: 30px;
+    color: black;
 }
 
 main {
     background: #ffffff;
     color: #000000;
-    text-align: center;
-    font-size: 25px;
-    font-weight: bolder;
+    text-align: left;
     width: 90%;
     margin-top: 0;
-    margin-bottom: 10%;
+    margin-bottom: 0;
     margin-left: auto;
     margin-right: auto;
     padding-top: 1%;
     padding-bottom: 1%;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.473)
+    box-shadow: 3px 3px 5px rgba(29, 29, 29, 0.473)
 }
 
 .Main_message {
-    padding: 20px;
+    padding: 25px;
+    font-style: bolder;
+    font-family: 'Roboto', sans-serif;
 }
 
-a{
+.introduction {
+    margin-left: 5%;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+.courses_list {
+    margin-left: 10%;
+    font-size: 18px;
+    line-height: 1.2;
+    font-style: italic;
+}
+
+.social_media {
+    margin-left: 10%;
+    font-size: 20px;
+}
+
+.social_media_image {
+    width: 45px;
+    height: 45px;
+    text-align: center;
+}
+
+.social_media_link {
+    padding-left: 15%;
+    vertical-align: middle;
+}
+
+a {
     text-decoration: none;
-    color: rgb(161, 0, 0);
+    color: rgb(214, 182, 0);
+    text-shadow: 0.2px 0.2px 0 black;
 }
 
 a:hover {
@@ -47,3 +87,19 @@ a:active{
 }
 
 
+footer {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10%;
+    text-align: center;
+    background: black;
+    color:#ffffff;
+    padding: 40px 0;
+    box-shadow: 3px 3px 5px rgba(29, 29, 9, 0.473);
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer_logo {
+    width: 15%;
+}
