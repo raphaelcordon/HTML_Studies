@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+        <!-- ##### Main Area Start ##### -->
+        <main>
+            <!-- ##### Form New Register Start ##### -->
+            <div class="access_level">
+                <p>Register a new User:</p>
+                <br>
+                <form action="{{ url_for('users_registry') }}" method="post" enctype="multipart/form-data">
+                    <fieldset>
+
+                    <div class="alert-{{category}}">
+                        <label for="name">User Name</label>
+                        <input type="text" id="name" name="name" class="form-control">
+                        <label for="access_level">Access Level</label>
+                        <select id="access_level" name="access_level">
+                            {% for each in ACCESS_LEVEL %}
+                            <option value="{{each}}" {% if each =="Student" %} selected {% endif %}>{{each}}</option>
+                            {% endfor %}
+                            </select>
+                        <button type="submit">Save</button>
+                    </div>
+                    <div>
+                        {% for category, message in get_flashed_messages(with_categories=True) %}
+                        {{ message }}
+                        {% endfor %}
+                    </div>
+                    </fieldset>
+                </form>
+            </div>    
+            <br>
+            <div class="mainmenu_bodytext">
+                <p>Users already registered:</p>
+
+                <table class="table-lists">
+                    <thead>
+                        <tr>
+                            <th>Users</th>
+                            <th>Access Level</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{user.name}}</td>
+                            <td>{{user.access_level}}</td>
+                            <td>
+                            <a href="{{ url_for('users_edit', id=user.id, category='users') }}">Edit</a>
+                            <a href="{{ url_for('Delete', id=user.id, category='users') }}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <!-- ##### Main Area End ##### -->
+{% endblock %}
