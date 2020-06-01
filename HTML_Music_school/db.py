@@ -74,34 +74,43 @@ class UsersDB:
         cursor = msdb.cursor()
         cursor.execute(f"SELECT * FROM users where id = {id}")
         find = cursor.fetchone()
-        return Users(find[0], find[1], find[2], find[3], find[4])
+        return Users(find[0], find[1], find[2], find[3], find[4], find[5])
 
     @staticmethod
-    def users_new(name, password, course, access_level):  # <- Register a new User in the table ->
+    def users_new(username, name, password, course, access_level):  # <- Register a new User in the table ->
         try:
-            if CheckDuplication.check('users', name, id=None) is True:
+            if CheckDuplication.check('users', username, id=None) is True:
                 return True
             else:
                 cursor = msdb.cursor()
-                insert = f"INSERT INTO users (Name, password, Course, Access_level) values (%s, %s, %s, %s)"
-                cursor.execute(insert, (name, password, course, access_level))
+                insert = f"INSERT INTO users (USERNAME,NAME, PASSWORD, COURSE, ACCESS_LEVEL) values (%s, %s, %s, %s, %s)"
+                cursor.execute(insert, (username, name, password, course, access_level))
                 msdb.commit()
         except:
             TryDBMessage.message()
 
     @staticmethod
-    def users_update(id, new_register, access_level):  # <- Update an existent User ->
+    def users_update(id, new_username, new_register, access_level):  # <- Update an existent User ->
         try:
             if CheckDuplication.check('users', new_register, id) is True:
                 return True
             else:
                 cursor = msdb.cursor()
-                updating_query = f"UPDATE users SET NAME='{new_register}', ACCESS_LEVEL='{access_level}' WHERE id='{id}'"
+                updating_query = f"UPDATE users SET USERNAME='{new_username}', NAME='{new_register}', ACCESS_LEVEL='{access_level}' WHERE id='{id}'"
                 cursor.execute(updating_query)
                 msdb.commit()
         except:
             TryDBMessage.message()
 
+    @staticmethod
+    def users_password_update(id, new_password):  # <- Update User's password ->
+        try:
+            cursor = msdb.cursor()
+            updating_query = f"UPDATE users SET PASSWORD='{new_password}' WHERE id='{id}'"
+            cursor.execute(updating_query)
+            msdb.commit()
+        except:
+            TryDBMessage.message()
 # <--- Users DEFs ending --->
 
 
@@ -122,11 +131,11 @@ class CheckDuplication:
     def check(category, item, id):   # <- Return the info if an Item exists into the table ->
         cursor = msdb.cursor()
         try:
-            consulting_query = f"SELECT name FROM {category} where name = '{item}'"
+            consulting_query = f"SELECT name FROM {category} where username = '{item}'"
             cursor.execute(consulting_query)
             list = cursor.fetchall()
 
-            consulting_query = f"SELECT name FROM {category} where name = '{item}' and id='{id}'"
+            consulting_query = f"SELECT username FROM {category} where username = '{item}' and id='{id}'"
             cursor.execute(consulting_query)
             list_sameID = cursor.fetchall()
 
@@ -147,12 +156,12 @@ class FindId:
         self.find = self.cursor.fetchall()
         self.return_id()
 
-
     def return_id(self):
         if self.category == 'course':
             return translate_courses(self.find)
         elif self.category == 'users':
             return translate_users(self.find)
+
 
 class TryDBMessage:
     @staticmethod
@@ -171,7 +180,7 @@ def translate_courses(course):  # <- Converts DB data (course) into Tuple ->
 
 def translate_users(users):  # <- Converts DB data (users) into Tuple ->
     def create_users_with_tuple(tuple):
-        return Users(tuple[0], tuple[1], tuple[2], tuple[3], tuple[4])
+        return Users(tuple[0], tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
     return list(map(create_users_with_tuple, users))
 
 # <--- Translating DB Ending --->
@@ -187,14 +196,12 @@ class Authenticate:
         self.cursor = msdb.cursor()
 
     @staticmethod
-    def authenticate(user):
+    def authenticate(username):
         try:
             cursor = msdb.cursor()
-            consulting_query = f"SELECT Name FROM users where name='{user}'"
-            cursor.execute(consulting_query)
-            data = cursor.fetchone()
-            list = translate_users(data) if data else None
-            return list
+            cursor.execute(f"SELECT * FROM users where username = '{username}'")
+            find = cursor.fetchone()
+            return Users(find[0], find[1], find[2], find[3], find[4], find[5])
         except:
             TryDBMessage.message()
 
