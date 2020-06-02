@@ -113,7 +113,26 @@ def users_update():
         flash('Successfully updated')
     return redirect(url_for('users'))
 
+
+@app.route('/usercourse/<int:id>')
+def usercourse(id):
+    course_list = CourseDB.course_list()
+    data = UsersDB.users_find_id(id)
+
+    return render_template('usercourse.html', course_list=course_list, data=data)
+
+
+@app.route('/update_enrolled_courses', methods=['POST',])
+def update_enrolled_courses():
+    for list in request.form:
+        if list != 'id':
+            course = request.form[list]
+            UsersDB.update_enrolled_courses(request.form['id'], int(course))
+
+    return redirect(url_for('users'))
+
 # <--- Users routes ending --->
+
 
 @app.route('/Delete/<int:id>/<category>')
 def Delete(category, id):

@@ -2,26 +2,28 @@
 {% block content %}
         <!-- ##### Main Area Start ##### -->
         <main>
-            <div class="access_level">
-            <p>Log in:</p>
-            <br>
-            <form action="{{ url_for('authenticate') }}" method="post" enctype="multipart/form-data">
-            <fieldset>
-                <div>
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+            <div class="flash">{{ message }}</div> {% endfor %}
 
-                    <label for="pass">pass</label>
-                    <input type="password" id="pass" name="pass" required>
+                {% if session['username'] == '' %}
+                <div class="access_level">
+                <p>Log in:</p>
+                <br>
+                <form action="{{ url_for('authenticate') }}" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <div>
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
 
-                    <button type="submit">Log in</button>
-                {% for category, message in get_flashed_messages(with_categories=True) %}
-                {{ message }}
-                {% endfor %}
-                </div>
-            </fieldset>
-            </form>
+                        <label for="pass">pass</label>
+                        <input type="password" id="pass" name="pass" required>
+
+                        <button type="submit">Log in</button>
+                    </div>
+                </fieldset>
+                </form>
             </div>
+        {% endif %}
 
             <div class="mainmenu_bodytext">
 

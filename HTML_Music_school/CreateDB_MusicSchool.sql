@@ -11,14 +11,15 @@ CREATE TABLE IF NOT EXISTS course (
 						);
 
 CREATE TABLE IF NOT EXISTS users (
-						ID INTEGER AUTO_INCREMENT PRIMARY KEY UNIQUE KEY, 
+						ID INTEGER AUTO_INCREMENT UNIQUE KEY,
+                        USERNAME VARCHAR(30),
 						NAME VARCHAR(50),
                         password VARCHAR(255),
 						COURSE BOOL,
 						ACCESS_LEVEL VARCHAR(20)
 						);
                             
-CREATE TABLE IF NOT EXISTS enroled_courses (
+CREATE TABLE IF NOT EXISTS enrolled_courses (
 						STUDENT_ID SMALLINT,
                         COURSE_ID SMALLINT
                         );

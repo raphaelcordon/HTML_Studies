@@ -36,6 +36,7 @@
             <div class="mainmenu_bodytext">
                 <p>Users already registered:</p>
 
+                <!-- ##### Table Master Start ##### -->
                 <table class="table-lists">
                     <thead>
                         <tr>
@@ -47,6 +48,7 @@
                     </thead>
                     <tbody>
                     {% for user in users %}
+                        {% if user.access_level == 'Master' %}
                         <tr>
                             <td>{{user.username}}</td>
                             <td>{{user.name}}</td>
@@ -56,9 +58,68 @@
                             <a href="{{ url_for('Delete', id=user.id, category='users') }}">Delete</a>
                             </td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
+                <!-- ##### Table Master End ##### -->
+
+                <!-- ##### Table Instructor Start ##### -->
+                <table class="table-lists">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Access Level</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        {% if user.access_level == 'Instructor' %}
+                        <tr>
+                            <td>{{user.username}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.access_level}}</td>
+                            <td>
+                            <a href="{{ url_for('users_edit', id=user.id, category='users') }}">Edit</a>&nbsp; &nbsp;
+                            <a href="{{ url_for('Delete', id=user.id, category='users') }}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <!-- ##### Table Instructor End ##### -->
+
+                <!-- ##### Table Student Start ##### -->
+                <table class="table-lists">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Access Level</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        {% if user.access_level == 'Student' %}
+                        <tr>
+                            <td>{{user.username}}</td>
+                            <td><a href="{{ url_for('usercourse', id=user.id) }}">{{user.name}}</a></td>
+                            <td>{{user.access_level}}</td>
+                            <td>
+                            <a href="{{ url_for('users_edit', id=user.id, category='users') }}">Edit</a>&nbsp; &nbsp;
+                            <a href="{{ url_for('Delete', id=user.id, category='users') }}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <!-- ##### Table Student End ##### -->
+
             </div>
         </main>
         <!-- ##### Main Area End ##### -->

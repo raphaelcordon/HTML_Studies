@@ -111,6 +111,30 @@ class UsersDB:
             msdb.commit()
         except:
             TryDBMessage.message()
+
+
+    @staticmethod
+    def update_enrolled_courses(user_id, course_id):  # <- Update User's password ->
+        try:
+            cursor = msdb.cursor()
+            updating_query = f"INSERT INTO music_school.enrolled_courses (STUDENT_ID, COURSE_ID) " \
+                             f"VALUES ({user_id}, {course_id})"
+            cursor.execute(updating_query)
+            msdb.commit()
+        except:
+            TryDBMessage.message()
+
+
+    @staticmethod
+    def delete_enrolled_courses(user_id, course_id):  # <- Update User's password ->
+        try:
+            cursor = msdb.cursor()
+            updating_query = f"DELETE FROM ENROLLED_COURSES WHERE STUDENT_ID='{user_id}', COURSE_ID='{course_id}'"
+            cursor.execute(updating_query)
+            msdb.commit()
+        except:
+            TryDBMessage.message()
+
 # <--- Users DEFs ending --->
 
 
@@ -130,12 +154,16 @@ class CheckDuplication:
     @staticmethod
     def check(category, item, id):   # <- Return the info if an Item exists into the table ->
         cursor = msdb.cursor()
+        name = 'name'
+        if category == 'username':
+            name = 'username'
+
         try:
-            consulting_query = f"SELECT name FROM {category} where username = '{item}'"
+            consulting_query = f"SELECT {name} FROM {category} where {name} = '{item}'"
             cursor.execute(consulting_query)
             list = cursor.fetchall()
 
-            consulting_query = f"SELECT username FROM {category} where username = '{item}' and id='{id}'"
+            consulting_query = f"SELECT {name} FROM {category} where {name} = '{item}' and id='{id}'"
             cursor.execute(consulting_query)
             list_sameID = cursor.fetchall()
 
