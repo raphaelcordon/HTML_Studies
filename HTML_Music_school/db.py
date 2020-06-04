@@ -1,5 +1,5 @@
 import mysql.connector
-from models import Course, Users
+from models import Course, Users, Enrollment
 
 
 msdb = mysql.connector.connect(
@@ -16,7 +16,7 @@ class CourseDB:
     @staticmethod
     def course_list():  # <- List Courses on Courses Page ->
         cursor = msdb.cursor()
-        cursor.execute(f"SELECT id, name FROM course")
+        cursor.execute(f"SELECT * FROM course")
         course = translate_courses(cursor.fetchall())
         return course
 
@@ -71,7 +71,9 @@ class UsersDB:
 
     @staticmethod
     def users_find_id(id):  # <- ID finder to redirect to Edit page ->
-        cursor = msdb.cursor()
+        cursor = msdb.cursor(
+
+        )
         cursor.execute(f"SELECT * FROM users where id = {id}")
         find = cursor.fetchone()
         return Users(find[0], find[1], find[2], find[3], find[4], find[5])
@@ -113,29 +115,66 @@ class UsersDB:
             TryDBMessage.message()
 
 
-    @staticmethod
-    def update_enrolled_courses(user_id, course_id):  # <- Update User's password ->
-        try:
-            cursor = msdb.cursor()
-            updating_query = f"INSERT INTO music_school.enrolled_courses (STUDENT_ID, COURSE_ID) " \
-                             f"VALUES ({user_id}, {course_id})"
-            cursor.execute(updating_query)
-            msdb.commit()
-        except:
-            TryDBMessage.message()
-
-
-    @staticmethod
-    def delete_enrolled_courses(user_id, course_id):  # <- Update User's password ->
-        try:
-            cursor = msdb.cursor()
-            updating_query = f"DELETE FROM ENROLLED_COURSES WHERE STUDENT_ID='{user_id}', COURSE_ID='{course_id}'"
-            cursor.execute(updating_query)
-            msdb.commit()
-        except:
-            TryDBMessage.message()
-
 # <--- Users DEFs ending --->
+
+
+# <--- Enrollment DEFs beginning --->
+
+class EnrollmentDB:
+    @staticmethod
+    def enrollment_list():  # <- List Courses on Courses Page ->
+        cursor = msdb.cursor()
+        cursor.execute(f"SELECT * FROM enrolled_courses")
+        users = translate_enrollment(cursor.fetchall())
+        return users
+
+    @staticmethod
+    def insert_enrolled_courses(student_id, course_id):  # <- Insert Enrolled's Table ->
+        student_id = int(student_id)
+        course_id = int(course_id)
+        try:
+            cursor = msdb.cursor()
+            insert = f"INSERT INTO enrolled_courses (STUDENT_ID, COURSE_ID) values (%s, %s)"
+            cursor.execute(insert, (student_id, course_id))
+            msdb.commit()
+        except:
+            TryDBMessage.message()
+
+
+    @staticmethod
+    def enrolled_find_user_id(id):  # <- ID finder to redirect to Edit page ->
+        cursor = msdb.cursor()
+        cursor.execute(f"SELECT * FROM ENROLLED_COURSES where STUDENT_ID = {id}")
+        find = translate_enrollment(cursor.fetchall())
+        if find:
+            return find
+
+
+    @staticmethod
+    def enroled_deleting_by_id(student_id):  # <- ID finder to redirect to Edit page ->
+        student_id = int(student_id)
+        try:
+            cursor = msdb.cursor()
+            deleting_query = f"DELETE FROM enrolled_courses WHERE STUDENT_ID={student_id}"
+            cursor.execute(deleting_query)
+            msdb.commit()
+        except:
+            TryDBMessage.message()
+
+
+    @staticmethod
+    def enroled_deleting_by_course(course_id):  # <- ID finder to redirect to Edit page ->
+        course_id = int(course_id)
+        try:
+            cursor = msdb.cursor()
+            deleting_query = f"DELETE FROM enrolled_courses WHERE COURSE_ID={course_id}"
+            cursor.execute(deleting_query)
+            msdb.commit()
+        except:
+            TryDBMessage.message()
+
+
+# <--- Enrollment DEFs ending --->
 
 
 #       <--- Supporting DEFs beginning --->
@@ -146,8 +185,13 @@ class DeletingDB:
             deleting_query = f"DELETE FROM {category} WHERE id='{item}'"
             cursor.execute(deleting_query)
             msdb.commit()
+            if category == 'users':
+                EnrollmentDB.enroled_deleting_by_id(item)
+            elif category == 'course':
+                EnrollmentDB.enroled_deleting_by_course(item)
         except:
             TryDBMessage.message()
+
 
 
 class CheckDuplication:
@@ -210,6 +254,12 @@ def translate_users(users):  # <- Converts DB data (users) into Tuple ->
     def create_users_with_tuple(tuple):
         return Users(tuple[0], tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
     return list(map(create_users_with_tuple, users))
+
+
+def translate_enrollment(users):  # <- Converts DB data (enrollment) into Tuple ->
+    def create_enrollment_with_tuple(tuple):
+        return Enrollment(tuple[0], tuple[1])
+    return list(map(create_enrollment_with_tuple, users))
 
 # <--- Translating DB Ending --->
 

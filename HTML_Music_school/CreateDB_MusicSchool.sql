@@ -18,10 +18,10 @@ CREATE TABLE IF NOT EXISTS users (
 						COURSE BOOL,
 						ACCESS_LEVEL VARCHAR(20)
 						);
-                            
+                           
 CREATE TABLE IF NOT EXISTS enrolled_courses (
-						STUDENT_ID SMALLINT,
-                        COURSE_ID SMALLINT
+						STUDENT_ID SMALLINT not null,
+                        COURSE_ID SMALLINT not null
                         );
                             
 CREATE TABLE IF NOT EXISTS classes (

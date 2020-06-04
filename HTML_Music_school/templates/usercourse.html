@@ -32,8 +32,12 @@
 
 
                 {% for course in course_list %}
-                <input type="checkbox" id="course" name="{{ course.name }}" value="{{ course.id }}">
-                <label for="course">{{ course.name }}</label>
+                    {% if course.id in enrolled %}
+                        <input type="checkbox" id="{{ course.name }}" name="{{ course.name }}" value="{{ course.id }}" checked>
+                    {% else %}
+                        <input type="checkbox" id="{{ course.name }}" name="{{ course.name }}" value="{{ course.id }}">
+                    {% endif %}
+                <label for="{{ course.name }}">{{ course.name }}</label>
 
                 {% endfor %}
                             </td>

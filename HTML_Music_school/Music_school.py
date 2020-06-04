@@ -1,6 +1,6 @@
-from db import CourseDB, UsersDB, DeletingDB, FindId, Authenticate
+from db import CourseDB, UsersDB, DeletingDB, FindId, Authenticate, EnrollmentDB
 from flask import Flask, render_template, redirect, request, url_for, flash, session
-from models import Course, Users, Edit_Users_Access_Level, Edit_Users_Pass, ACCESS_LEVEL
+from models import Course, Users, Edit_Users_Access_Level, Edit_Users_Pass, Enrollment, ACCESS_LEVEL
 from passlib.hash import sha256_crypt
 
 
@@ -118,16 +118,22 @@ def users_update():
 def usercourse(id):
     course_list = CourseDB.course_list()
     data = UsersDB.users_find_id(id)
+    enrolled = EnrollmentDB.enrolled_find_user_id(id)
+    enrolled_list = []
+    if enrolled is not None:
+        for c in enrolled:
+            enrolled_list.append(c.course_id)
 
-    return render_template('usercourse.html', course_list=course_list, data=data)
+    return render_template('usercourse.html', course_list=course_list, data=data, enrolled=enrolled_list)
 
 
 @app.route('/update_enrolled_courses', methods=['POST',])
 def update_enrolled_courses():
+    EnrollmentDB.enroled_deleting_by_id(request.form['id'])
     for list in request.form:
         if list != 'id':
             course = request.form[list]
-            UsersDB.update_enrolled_courses(request.form['id'], int(course))
+            EnrollmentDB.insert_enrolled_courses(request.form['id'], course)
 
     return redirect(url_for('users'))
 
