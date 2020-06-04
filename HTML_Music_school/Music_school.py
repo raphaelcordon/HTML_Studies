@@ -140,6 +140,15 @@ def update_enrolled_courses():
 # <--- Users routes ending --->
 
 
+# <--- Classes routes beginning --->
+@app.route('/classes')
+def classes():
+    if session['username'] == '' or 'username' not in session:
+        flash('You must be logged for navigation')
+        return render_template('index.html')
+    else:
+        return render_template('classes.html', title='Classes')
+
 @app.route('/Delete/<int:id>/<category>')
 def Delete(category, id):
     DeletingDB(category, id)
@@ -198,4 +207,4 @@ def update_pass_db():
     return redirect(url_for('home'))
 
 
-app.run(debug=True)
+app.run()
