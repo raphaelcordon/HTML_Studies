@@ -37,7 +37,7 @@ main {
 }
 
 .Main_message {
-    padding: 25px;
+    padding: 5%;
     font-style: bolder;
     font-family: 'Roboto', sans-serif;
 }
@@ -72,11 +72,12 @@ main {
 }
 
 .table_app {
-    width: 100%;
+    width: 95%;
 }
 
 .table_app_td {
     width: 13%;
+    padding: 1%;
 }
 
 .apps_image {
