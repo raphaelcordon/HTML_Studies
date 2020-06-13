@@ -1,3 +1,5 @@
+/* CSS Main page */
+
 body {
     font-family: 'Montserrat', sans-serif;
     background: grey;
@@ -24,7 +26,7 @@ main {
     background: #ffffff;
     color: #000000;
     text-align: left;
-    width: 90%;
+    width: 95%;
     margin-top: 0;
     margin-bottom: 0;
     margin-left: auto;
@@ -41,7 +43,7 @@ main {
 }
 
 .introduction {
-    margin-left: 5%;
+    margin: 0 5% 0 5%;
     font-size: 20px;
     line-height: 1.5;
 }
@@ -69,6 +71,19 @@ main {
     vertical-align: middle;
 }
 
+.table_app {
+    width: 100%;
+}
+
+.table_app_td {
+    width: 13%;
+}
+
+.apps_image {
+    text-align: center;
+    box-shadow: 2px 2px 2px #555555;
+}
+
 a {
     text-decoration: none;
     color: rgb(214, 182, 0);
@@ -88,7 +103,7 @@ a:active{
 
 
 footer {
-    width: 90%;
+    width: 95%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10%;
@@ -102,4 +117,36 @@ footer {
 
 .footer_logo {
     width: 15%;
+}
+
+/* CSS for Smartphones */
+
+@media screen and (max-width: 480px) {
+
+
+    .mainlogo {
+        width: 30%;
+    }
+
+    .mainlogo, .header_link{
+        padding-left: unset;
+        margin: 0 auto 0 auto;
+        display: block;
+    }
+    
+    main {
+        width: 100%;
+        padding-bottom: 5%;
+    }
+
+    .introduction {
+        font-size: 18px;
+        line-height: 1.5;
+    }
+
+    footer {
+        width: 100%;
+        margin-bottom: 1%;
+    }
+
 }
