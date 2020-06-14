@@ -1,8 +1,7 @@
 /* CSS Main page */
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    background: grey;
+    background: rgb(192, 192, 192);
     margin-top: 0;
 }
 
@@ -18,27 +17,23 @@ h1 {
 .header_link {
     vertical-align: 20px;
     padding-left: 20px;
-    font-size: 30px;
-    color: black;
+    font-size: 25px;
+    color: rgb(34, 34, 34);
 }
 
 main {
     background: #ffffff;
-    color: #000000;
+    color: rgb(40, 40, 40);
     text-align: left;
     width: 95%;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    margin: 0 auto 0 auto;
+    padding: 1% 0 1%;
     box-shadow: 3px 3px 5px rgba(29, 29, 29, 0.473)
 }
 
 .Main_message {
     padding: 5%;
-    font-style: bolder;
+    font-style: bold;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -104,14 +99,13 @@ a:active{
 
 
 footer {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10%;
+    width: 95.2%;
+    margin: 0 auto 0 auto;
+    margin-bottom: 5%;
     text-align: center;
     background: black;
     color:#ffffff;
-    padding: 40px 0;
+    padding: 5% 0;
     box-shadow: 3px 3px 5px rgba(29, 29, 9, 0.473);
     font-family: 'Roboto', sans-serif;
 }
@@ -124,15 +118,21 @@ footer {
 
 @media screen and (max-width: 480px) {
 
-
+    
     .mainlogo {
         width: 30%;
     }
 
     .mainlogo, .header_link{
         padding-left: unset;
+        padding: 0 0 0 0;
         margin: 0 auto 0 auto;
-        display: block;
+    }
+
+    .header_link {
+        padding-left: 5%;
+    }
+
     }
     
     main {
